@@ -3,9 +3,10 @@ COMP 163 - Project 2: Character Abilities Showcase
 Name: [Your Name Here]
 Date: [Date]
 
-AI Usage: [Document any AI assistance used]
-Example: AI helped with inheritance structure and method overriding concepts
+AI Usage: Used AI for helpful debugging and creation of the README.md file
 """
+
+import random
 
 # ============================================================================
 # PROVIDED BATTLE SYSTEM (DO NOT MODIFY)
@@ -54,243 +55,206 @@ class SimpleBattle:
 # ============================================================================
 
 class Character:
-    """
-    Base class for all characters.
-    This is the top of our inheritance hierarchy.
-    """
+    """Base class for all characters."""
     
     def __init__(self, name, health, strength, magic):
         """Initialize basic character attributes"""
-        # TODO: Set the character's name, health, strength, and magic
-        # These should be stored as instance variables
-        pass
+        self.name = name
+        self.health = health
+        self.strength = strength
+        self.magic = magic
         
     def attack(self, target):
-        """
-        Basic attack method that all characters can use.
-        This method should:
-        1. Calculate damage based on strength
-        2. Apply damage to the target
-        3. Print what happened
-        """
-        # TODO: Implement basic attack
-        # Damage should be based on self.strength
-        # Use target.take_damage(damage) to apply damage
-        pass
+        """Basic attack using strength for damage."""
+        damage = self.strength
+        print(f"{self.name} attacks {target.name}. They did {damage} damage.")
+        target.take_damage(damage)
         
     def take_damage(self, damage):
-        """
-        Reduces this character's health by the damage amount.
-        Health should never go below 0.
-        """
-        # TODO: Implement taking damage
-        # Reduce self.health by damage amount
-        # Make sure health doesn't go below 0
-        pass
+        """Reduce health, never below 0."""
+        self.health -= damage
+        if self.health < 0:
+            self.health = 0
+        print(f"{self.name} takes {damage} damage. Health left: {self.health}") 
         
     def display_stats(self):
-        """
-        Prints the character's current stats in a nice format.
-        """
-        # TODO: Print character's name, health, strength, and magic
-        # Make it look nice with formatting
-        pass
+        """Show basic stats."""
+        print(f"--- {self.name}'s Stats ---")
+        print(f"Health: {self.health}")
+        print(f"Strength: {self.strength}")
+        print(f"Magic: {self.magic}")
+
 
 class Player(Character):
-    """
-    Base class for player characters.
-    Inherits from Character and adds player-specific features.
-    """
+    """Base class for all player characters."""
     
     def __init__(self, name, character_class, health, strength, magic):
-        """
-        Initialize a player character.
-        Should call the parent constructor and add player-specific attributes.
-        """
-        # TODO: Call super().__init__() with the basic character info
-        # TODO: Store the character_class (like "Warrior", "Mage", etc.)
-        # TODO: Add any other player-specific attributes (level, experience, etc.)
-        pass
-        
+        super().__init__(name, health, strength, magic)
+        self.character_class = character_class
+        self.level = 1
+        self.experience = 0
+
     def display_stats(self):
-        """
-        Override the parent's display_stats to show additional player info.
-        Should show everything the parent shows PLUS player-specific info.
-        """
-        # TODO: Call the parent's display_stats method using super()
-        # TODO: Then print additional player info like class and level
-        pass
+        """Override to show player-specific info."""
+        super().display_stats()
+        print(f"Class: {self.character_class}")
+        print(f"Level: {self.level}")
+        print(f"Experience: {self.experience}")
+
+    def gain_experience(self, amount):
+        """Gain experience and level up automatically."""
+        self.experience += amount
+        print(f"{self.name} gains {amount} XP!")
+        if self.experience >= 100:
+            self.level += 1
+            self.experience = 0
+            self.health += 10
+            self.strength += 2
+            print(f"{self.name} leveled up to Level {self.level}!")
+
+    def equip_weapon(self, weapon):
+        """Equip a weapon (composition in action)."""
+        self.weapon = weapon
+        print(f"{self.name} equips the {weapon.name}! (+{weapon.damage_bonus} damage bonus)")
+
 
 class Warrior(Player):
-    """
-    Warrior class - strong physical fighter.
-    Inherits from Player.
-    """
+    """Warrior class - strong physical fighter."""
     
     def __init__(self, name):
-        """
-        Create a warrior with appropriate stats.
-        Warriors should have: high health, high strength, low magic
-        """
-        # TODO: Call super().__init__() with warrior-appropriate stats
-        # Suggested stats: health=120, strength=15, magic=5
-        pass
+        super().__init__(name, "Warrior", 120, 15, 5)
         
     def attack(self, target):
-        """
-        Override the basic attack to make it warrior-specific.
-        Warriors should do extra physical damage.
-        """
-        # TODO: Implement warrior attack
-        # Should do more damage than basic attack
-        # Maybe strength + 5 bonus damage?
-        pass
+        """Warrior's basic attack with weapon bonus if equipped."""
+        weapon_bonus = self.weapon.damage_bonus if hasattr(self, "weapon") else 0
+        damage = self.strength + 5 + weapon_bonus
+        weapon_name = self.weapon.name if hasattr(self, "weapon") else "bare hands"
+        print(f"{self.name} slashes {target.name} with {weapon_name} for {damage} damage")
+        target.take_damage(damage)
         
     def power_strike(self, target):
-        """
-        Special warrior ability - a powerful attack that does extra damage.
-        """
-        # TODO: Implement power strike
-        # Should do significantly more damage than regular attack
-        pass
+        """Powerful warrior ability that deals double strength damage."""
+        damage = self.strength * 2
+        print(f"{self.name} uses power strike on {target.name} for {damage} damage")
+        target.take_damage(damage)
+        self.gain_experience(50)
+
 
 class Mage(Player):
-    """
-    Mage class - magical spellcaster.
-    Inherits from Player.
-    """
+    """Mage class - magical spellcaster."""
     
     def __init__(self, name):
-        """
-        Create a mage with appropriate stats.
-        Mages should have: low health, low strength, high magic
-        """
-        # TODO: Call super().__init__() with mage-appropriate stats
-        # Suggested stats: health=80, strength=8, magic=20
-        pass
+        super().__init__(name, "Mage", 80, 8, 20)
         
     def attack(self, target):
-        """
-        Override the basic attack to make it magic-based.
-        Mages should use magic for damage instead of strength.
-        """
-        # TODO: Implement mage attack
-        # Should use self.magic for damage calculation instead of strength
-        pass
+        """Attack using magic power and weapon bonus if equipped."""
+        weapon_bonus = self.weapon.damage_bonus if hasattr(self, "weapon") else 0
+        damage = self.magic + weapon_bonus
+        weapon_name = self.weapon.name if hasattr(self, "weapon") else "magic energy"
+        print(f"{self.name} casts a spell using {weapon_name} on {target.name} for {damage} damage")
+        target.take_damage(damage)
         
     def fireball(self, target):
-        """
-        Special mage ability - a powerful magical attack.
-        """
-        # TODO: Implement fireball spell
-        # Should do magic-based damage with bonus
-        pass
+        """Mage's special ability - boosted magic attack."""
+        damage = self.magic + 10
+        print(f"{self.name} shoots a fireball {target.name} for {damage} damage")
+        target.take_damage(damage)
+        self.gain_experience(50)
+
 
 class Rogue(Player):
-    """
-    Rogue class - quick and sneaky fighter.
-    Inherits from Player.
-    """
+    """Rogue class - quick and sneaky fighter."""
     
     def __init__(self, name):
-        """
-        Create a rogue with appropriate stats.
-        Rogues should have: medium health, medium strength, medium magic
-        """
-        # TODO: Call super().__init__() with rogue-appropriate stats
-        # Suggested stats: health=90, strength=12, magic=10
-        pass
+        super().__init__(name, "Rogue", 90, 12, 10)
         
     def attack(self, target):
-        """
-        Override the basic attack to make it rogue-specific.
-        Rogues should have a chance for extra damage (critical hits).
-        """
-        # TODO: Implement rogue attack
-        # Could add a chance for critical hit (double damage)
-        # Hint: use random.randint(1, 10) and if result <= 3, it's a crit
-        pass
+        """Rogue attack with critical hit chance and weapon bonus."""
+        weapon_bonus = self.weapon.damage_bonus if hasattr(self, "weapon") else 0
+        crit_chance = random.randint(1, 10)
+        if crit_chance <= 3:
+            damage = (self.strength * 2) + weapon_bonus
+            print(f"{self.name} lands a CRITICAL hit on {target.name} for {damage} damage")
+        else:
+            damage = self.strength + weapon_bonus
+            print(f"{self.name} swiftly attacks {target.name} for {damage} damage")
+        target.take_damage(damage)
         
     def sneak_attack(self, target):
-        """
-        Special rogue ability - guaranteed critical hit.
-        """
-        # TODO: Implement sneak attack
-        # Should always do critical damage
-        pass
+        """Guaranteed critical hit with possible weapon bonus."""
+        weapon_bonus = self.weapon.damage_bonus if hasattr(self, "weapon") else 0
+        damage = (self.strength * 2) + weapon_bonus
+        print(f"{self.name} performs a sneak attack on {target.name}, dealing {damage} damage!")
+        target.take_damage(damage)
+        self.gain_experience(50)
+
 
 class Weapon:
-    """
-    Weapon class to demonstrate composition.
-    Characters can HAVE weapons (composition, not inheritance).
-    """
+    """Weapon class to demonstrate composition."""
     
     def __init__(self, name, damage_bonus):
-        """
-        Create a weapon with a name and damage bonus.
-        """
-        # TODO: Store weapon name and damage bonus
-        pass
+        self.name = name
+        self.damage_bonus = damage_bonus
         
     def display_info(self):
-        """
-        Display information about this weapon.
-        """
-        # TODO: Print weapon name and damage bonus
-        pass
+        print(f"Weapon: {self.name}, Damage Bonus: {self.damage_bonus}")
 
 # ============================================================================
-# MAIN PROGRAM FOR TESTING (YOU CAN MODIFY THIS FOR TESTING)
+# MAIN PROGRAM FOR TESTING
 # ============================================================================
 
 if __name__ == "__main__":
     print("=== CHARACTER ABILITIES SHOWCASE ===")
     print("Testing inheritance, polymorphism, and method overriding")
     print("=" * 50)
-    
-    # TODO: Create one of each character type
-    # warrior = Warrior("Sir Galahad")
-    # mage = Mage("Merlin")
-    # rogue = Rogue("Robin Hood")
-    
-    # TODO: Display their stats
-    # print("\n📊 Character Stats:")
-    # warrior.display_stats()
-    # mage.display_stats()
-    # rogue.display_stats()
-    
-    # TODO: Test polymorphism - same method call, different behavior
-    # print("\n⚔️ Testing Polymorphism (same attack method, different behavior):")
-    # dummy_target = Character("Target Dummy", 100, 0, 0)
-    # 
-    # for character in [warrior, mage, rogue]:
-    #     print(f"\n{character.name} attacks the dummy:")
-    #     character.attack(dummy_target)
-    #     dummy_target.health = 100  # Reset dummy health
-    
-    # TODO: Test special abilities
-    # print("\n✨ Testing Special Abilities:")
-    # target1 = Character("Enemy1", 50, 0, 0)
-    # target2 = Character("Enemy2", 50, 0, 0)
-    # target3 = Character("Enemy3", 50, 0, 0)
-    # 
-    # warrior.power_strike(target1)
-    # mage.fireball(target2)
-    # rogue.sneak_attack(target3)
-    
-    # TODO: Test composition with weapons
-    # print("\n🗡️ Testing Weapon Composition:")
-    # sword = Weapon("Iron Sword", 10)
-    # staff = Weapon("Magic Staff", 15)
-    # dagger = Weapon("Steel Dagger", 8)
-    # 
-    # sword.display_info()
-    # staff.display_info()
-    # dagger.display_info()
-    
-    # TODO: Test the battle system
-    # print("\n⚔️ Testing Battle System:")
-    # battle = SimpleBattle(warrior, mage)
-    # battle.fight()
-    
-    print("\n✅ Testing complete!")
+
+    # Create characters
+    warrior = Warrior("Leon")
+    mage = Mage("Zara")
+    rogue = Rogue("Kai")
+
+    # Show stats
+    print("\n--- Character Stats ---")
+    warrior.display_stats()
+    mage.display_stats()
+    rogue.display_stats()
+
+    # Create weapons and equip them (composition in action)
+    print("\n--- Equipping Weapons ---")
+    sword = Weapon("Iron Sword", 10)
+    staff = Weapon("Magic Staff", 15)
+    dagger = Weapon("Steel Dagger", 8)
+
+    warrior.equip_weapon(sword)
+    mage.equip_weapon(staff)
+    rogue.equip_weapon(dagger)
+
+    # Dummy target
+    dummy = Character("Target Dummy", 100, 0, 0)
+
+    # Test polymorphism (same method, different behavior)
+    print("\n--- Testing Normal Attacks ---")
+    warrior.attack(dummy)
+    dummy.health = 100
+    mage.attack(dummy)
+    dummy.health = 100
+    rogue.attack(dummy)
+
+    # Test special abilities + level up system
+    print("\n--- Testing Special Abilities ---")
+    warrior.power_strike(dummy)
+    mage.fireball(dummy)
+    rogue.sneak_attack(dummy)
+
+    # Test weapon composition info
+    print("\n--- Testing Weapons ---")
+    sword.display_info()
+    staff.display_info()
+    dagger.display_info()
+
+    # Bonus: Battle demo
+    print("\n⚔️ Demo Battle: Warrior vs Mage ---")
+    battle = SimpleBattle(warrior, mage)
+    battle.fight()
+
+    print("\n✅ Testing complete! All features demonstrated successfully.")
