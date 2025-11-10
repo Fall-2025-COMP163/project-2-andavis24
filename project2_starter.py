@@ -1,7 +1,7 @@
 """
 COMP 163 - Project 2: Character Abilities Showcase
-Name: [Your Name Here]
-Date: [Date]
+Name: Ajani Davis
+Date: 11 - 10 - 2025
 
 AI Usage: Used AI for helpful debugging and creation of the README.md file
 """
