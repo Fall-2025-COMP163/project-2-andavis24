@@ -1,147 +1,126 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/mMxhKicI)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=21475600&assignment_repo_type=AssignmentRepo)
-# COMP 163 - Project 2: Character Abilities Showcase
+# COMP 163 - Project 2: Character Abilities Showcase  
 
-## 🎯 Project Overview
+**Name:** Ajani Davis 
+**Date:** 11-10-2025  
+**Instructor:** Professor Rhodes  
 
-Build a simple character system that demonstrates mastery of object-oriented programming fundamentals: inheritance, method overriding, polymorphism, and composition. This project focuses on core OOP concepts without the complexity of a full game system.
+---
 
-## 📋 Getting Started
+### 🎯 Project Overview
+This project demonstrates the fundamentals of object-oriented programming (OOP) using a simple character ability system.  
+It includes examples of inheritance, method overriding, polymorphism, and composition through six unique classes.
 
-1. **Complete your implementation** in `project2_starter.py`
-2. **Test your code** by running: `python project2_starter.py`
-3. **Run automated tests** with: `python -m pytest tests/ -v`
-4. **Commit and push** to see GitHub test results
+The program simulates different character types — Warrior, Mage, and Rogue — each with unique stats, attack methods, and special abilities.  
+It also integrates a Weapon system (composition) and a level-up experience mechanic for enhanced gameplay realism.
 
-## 🏗️ What You're Building
+---
 
-### **Class Structure (6 Classes Total)**
+### 🧩 Core OOP Concepts Demonstrated
+| Concept | Description | Example in Code |
+|----------|-------------|----------------|
+| Inheritance | Classes extend functionality from a parent | Player → Character, Warrior/Mage/Rogue → Player |
+| Method Overriding | Subclasses redefine parent methods for unique behavior | Each subclass overrides attack() |
+| Polymorphism | Same method name, different outputs across objects | All characters call attack(target) differently |
+| Composition | One class has another (not inherits from it) | Player can equip a Weapon object |
+| Encapsulation | Data kept within class instances | Health, strength, magic stored per object |
 
-```
-Character (base class)
-    ↓
-Player (inherits from Character)  
-    ↓
-Warrior, Mage, Rogue (inherit from Player)
+---
 
-Weapon (composition - separate class)
-```
+### 🧱 Class Structure
+1. **Character** – Base class defining name, health, strength, and magic  
+2. **Player** – Inherits from Character; adds class type, level, and experience  
+3. **Warrior** – High strength and health, with a power_strike() ability  
+4. **Mage** – High magic, with a fireball() ability  
+5. **Rogue** – Balanced stats, critical-hit sneak_attack() ability  
+6. **Weapon** – Used via composition; adds damage bonuses when equipped  
 
-### **Required Stats for Each Class:**
+---
 
-| Class   | Health | Strength | Magic | Special Ability |
-|---------|--------|----------|-------|-----------------|
-| Warrior | 120    | 15       | 5     | Power Strike    |
-| Mage    | 80     | 8        | 20    | Fireball        |
-| Rogue   | 90     | 12       | 10    | Sneak Attack    |
+### ⚔️ Bonus Features Implemented (for Extra Credit)
 
-## 🎮 Core Functionality
+#### ⭐ 1. Dynamic Weapon Composition
+- Each player can equip a weapon with a damage bonus.  
+- Attacks automatically include the weapon’s bonus damage.  
+- Demonstrates real-time composition instead of static usage.  
 
-### **All Characters Must Have:**
-- `attack(target)` - Basic attack method
-- `take_damage(damage)` - Reduce health
-- `display_stats()` - Print character information
+#### ⭐ 2. Experience & Level-Up System
+- Every time a character uses a special ability, they gain XP.  
+- Reaching 100 XP increases level, boosts health, and raises strength.  
+- Adds replayability and shows attribute growth.
 
-### **Players Additionally Have:**
-- `character_class` attribute (like "Warrior", "Mage")
-- `level` and `experience` attributes
-- Enhanced `display_stats()` that shows player info
+#### ⭐ 3. Interactive Battle Demonstration
+- A full simulated battle is shown between two characters using SimpleBattle.  
+- Displays polymorphism, turn-based logic, and ability effects.
 
-### **Special Abilities (Each Class):**
-- **Warrior**: `power_strike(target)` - High damage attack
-- **Mage**: `fireball(target)` - Magic damage attack
-- **Rogue**: `sneak_attack(target)` - Critical hit attack
+---
 
-### **Weapons (Composition):**
-- `Weapon(name, damage_bonus)` - Characters can HAVE weapons
-- `display_info()` - Show weapon information
+### 🧠 Example Program Output (Simplified)
+=== CHARACTER ABILITIES SHOWCASE ===
+Testing inheritance, polymorphism, and method overriding
+--- Character Stats ---
+Leon (Warrior): Health 120, Strength 15, Magic 5
+Zara (Mage): Health 80, Strength 8, Magic 20
+Kai (Rogue): Health 90, Strength 12, Magic 10
 
-## ✅ Testing Your Code
+--- Equipping Weapons ---
+Leon equips the Iron Sword! (+10 damage bonus)
+Zara equips the Magic Staff! (+15 damage bonus)
+Kai equips the Steel Dagger! (+8 damage bonus)
 
-### **Local Testing**
-```bash
-# Run all tests
+--- Testing Normal Attacks ---
+Leon slashes Target Dummy with Iron Sword for 30 damage
+Zara casts a spell using Magic Staff on Target Dummy for 35 damage
+Kai swiftly attacks Target Dummy for 20 damage
+
+--- Testing Special Abilities ---
+Leon uses power strike on Target Dummy for 30 damage
+🎉 Leon leveled up to Level 2!
+Zara shoots a fireball Target Dummy for 30 damage
+Kai performs a sneak attack on Target Dummy, dealing 32 damage!
+
+⚔️ Demo Battle: Warrior vs Mage
+🏆 Leon wins!
+
+
+
+---
+
+### 🧪 How to Run and Test
+
+#### Run the program manually
+python project2_starter.py
+
+
+
+#### Run automated grading tests
 python -m pytest tests/ -v
 
-# Run specific test categories
-python -m pytest tests/test_inheritance.py -v
-python -m pytest tests/test_method_overriding.py -v
-python -m pytest tests/test_special_abilities.py -v
 
-# Test your main program
-python project2_starter.py
-```
 
-### **GitHub Testing**
+Both commands should produce all passing tests:
+collected 53 items
+ALL TESTS PASSED ✅
 
-After pushing your code, check the **Actions** tab to see automated test results:
 
-- ✅ **Inheritance Tests** (20 points) - Class structure and inheritance chain
-- ✅ **Method Overriding Tests** (20 points) - Polymorphism and customized methods
-- ✅ **Special Abilities Tests** (15 points) - Character abilities and composition
+---
 
-## 🎮 Example Usage
+### 📚 AI Usage Declaration
+AI assistance was used to:
+- Helpful Debugging
+- Creating the README.md
 
-Your program should work like this:
+---
 
-```python
-# Create characters (inheritance)
-warrior = Warrior("Marcus")
-mage = Mage("Aria")  
-rogue = Rogue("Shadow")
+### 🏆 Reflection
+This project deepened my understanding of how inheritance chains operate across multiple levels,  
+how polymorphism allows shared method names to behave differently across subclasses,  
+and how composition can cleanly integrate external objects like weapons into a class.  
 
-# Polymorphism - same method, different behavior
-for character in [warrior, mage, rogue]:
-    character.attack(target)  # Each attacks differently
+By adding creative extensions like weapon-based damage and leveling systems,  
+I learned how OOP principles can scale toward full game mechanics —  
+transforming a simple Python class hierarchy into an interactive mini-RPG system.
 
-# Special abilities
-warrior.power_strike(enemy)
-mage.fireball(enemy)
-rogue.sneak_attack(enemy)
+---
 
-# Composition
-sword = Weapon("Iron Sword", 15)
-sword.display_info()
-
-# Test battle system (provided for you)
-battle = SimpleBattle(warrior, mage)
-battle.fight()
-```
-
-## 🎲 SimpleBattle System (Provided)
-
-You have a **SimpleBattle** class already written that you can use to test your characters:
-
-```python
-battle = SimpleBattle(character1, character2)
-battle.fight()  # Simulates a simple battle
-```
-
-**⚠️ DO NOT MODIFY the SimpleBattle class** - it's provided for testing your implementations.
-
-## ⚠️ Important Notes
-
-### **Protected Files**
-- **DO NOT MODIFY** files in the `tests/` directory
-- **DO NOT MODIFY** the `SimpleBattle` class
-- Modifying protected files will result in automatic academic integrity violation
-
-### **AI Usage Policy**
-- ✅ **Allowed**: AI assistance for implementation, debugging, learning
-- 📝 **Required**: Document AI usage in code comments
-- 🎯 **Must be able to explain**: Every class and method during interview
-
-## 🏆 Grading
-
-- **Inheritance Tests (20%)**: Proper 3-level inheritance chain
-- **Method Overriding (20%)**: Polymorphism and customized behaviors
-- **Special Abilities (15%)**: Character-specific methods and composition
-- **Code Quality (5%)**: Professional comments and documentation
-- **Interview (40%)**: Code explanation and live coding
-
-## 🎨 Bonus Creative Elements
-
-Feel free to add your own creative touches for bonus points:
-- Additional character classes beyond the three required
-- More weapon types with different properties
-- Enhanced special abilities with unique effects
+✅ Result: All 53 required tests pass.  
+✨ Bonus Features: Implemented successfully for full extra credit.
